@@ -20,7 +20,6 @@ void open_new(int no);
 void readBlock(unsigned char *data, int len);
 void writeHeaderPGM(int w, int h);
 void writePGM(int w, int h);
-void writeBmp(int w, int h);
 void halt();
 
 
@@ -184,53 +183,9 @@ void writePGM(int w, int h) {
   }
 }
 
-void writeBmp(int w, int h) {
-  // set fileSize (used in bmp header)
-  int rowSize = 4 * ((3*w + 3)/4);      // how many bytes in the row (used to create padding)
-  int fileSize = 54 + h*rowSize;
-
-  // create padding (based on the number of pixels in a row
-  unsigned char bmpPad[rowSize - 3*w];
-  for (int i=0; i<sizeof(bmpPad); i++) {         // fill with 0s
-    bmpPad[i] = 0;
-  }
-
-  // create file headers (also taken from StackOverflow example)
-  unsigned char bmpFileHeader[14] = {            // file header (always starts with BM!)
-    'B','M', 0,0,0,0, 0,0, 0,0, 54,0,0,0   };
-  unsigned char bmpInfoHeader[40] = {            // info about the file (size, etc)
-    40,0,0,0, 0,0,0,0, 0,0,0,0, 1,0, 24,0   };
-
-  bmpFileHeader[ 2] = (unsigned char)(fileSize      );
-  bmpFileHeader[ 3] = (unsigned char)(fileSize >>  8);
-  bmpFileHeader[ 4] = (unsigned char)(fileSize >> 16);
-  bmpFileHeader[ 5] = (unsigned char)(fileSize >> 24);
-
-  bmpInfoHeader[ 4] = (unsigned char)(       w      );
-  bmpInfoHeader[ 5] = (unsigned char)(       w >>  8);
-  bmpInfoHeader[ 6] = (unsigned char)(       w >> 16);
-  bmpInfoHeader[ 7] = (unsigned char)(       w >> 24);
-  bmpInfoHeader[ 8] = (unsigned char)(       h      );
-  bmpInfoHeader[ 9] = (unsigned char)(       h >>  8);
-  bmpInfoHeader[10] = (unsigned char)(       h >> 16);
-  bmpInfoHeader[11] = (unsigned char)(       h >> 24);
-
-  // write the file (thanks forum!)
-  imgfile.write(bmpFileHeader, sizeof(bmpFileHeader));    // write file header
-  imgfile.write(bmpInfoHeader, sizeof(bmpInfoHeader));    // " info header
-
-  unsigned char bgr[3] = {0x10,0x20,0x30};
-  for (int i=0; i<h; i++) {
-    for (int j=0; j<w; j++)
-      imgfile.write(bgr,3);
-    imgfile.write(bmpPad, (4-(w*3)%4)%4);                 // and padding as needed
-  }
-}
-
 
 ////////// Misc functions
 
 void halt() {
   while (1) delay(1000);
 }
-
