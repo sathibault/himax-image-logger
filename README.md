@@ -2,7 +2,7 @@
 
 ![Image Logger](images/image-logger-stack.jpg)
 
-This image logger is based on the [Vision FPGA SoM](https://www.crowdsupply.com/tinyvision-ai/vision-fpga-som) from [tinyVision.ai](https://tinyvision.ai/).  It captures up to 1 image per second from the 320x320 Bayer filtered image sensors and writes the raw images to an SD card.  Details of the build can be found on Hackster.io.
+This image logger is based on the [Vision FPGA SoM](https://www.crowdsupply.com/tinyvision-ai/vision-fpga-som) from [tinyVision.ai](https://tinyvision.ai/).  It captures up to 1 image per second from the 320x320 Bayer filtered image sensors and writes the raw images to an SD card.  Details of the build can be found on hackster io: [Battery-powered Image Logger](https://www.hackster.io/sthibault/battery-powered-image-logger-3a6c0e).
 
 ## Programming the FPGA
 
